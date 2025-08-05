@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>CÔNG CỤ DỰ TÍNH THU NHẬP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+@font-face1 {
+	font-family:'Manulife JH Sans';
+	src:	url('font/ManulifeJHSans-Bold.eot');
+	src:	url('font/ManulifeJHSans-Bold.eot?#iefix') format('embedded-opentype'),
+			url('font/ManulifeJHSans-Bold.woff2') format('woff2'),
+			url('font/ManulifeJHSans-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face2 {
+	font-family:'Manulife JH Serif';
+	src:	url('font/ManulifeJHSerif.eot');
+	src:	url('font/ManulifeJHSerif.eot?#iefix') format('embedded-opentype'),
+			url('font/ManulifeJHSerif.woff2') format('woff2'),
+			url('font/ManulifeJHSerif.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+    html, body {
+      height: 100%;
+      margin: 0; padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      background: url('BGINCOME.webp') center/cover no-repeat fixed;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 480px;
+      background: #ffffffee;
+      margin: 20px auto 24px auto;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px #bbb8;
+      padding: 18px 8px 24px 8px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+    h2 {
+   font-family:'Manulife JH Sans';
+   
+      text-align: center;
+      color: #0000C1;
+      margin-top: 0.5em;
+      letter-spacing: 0.05em;
+      font-weight: bold;
+    }
+    h3, h4 {
+      margin-bottom: 8px;
+      color: #00519c;
+      font-weight: 600;
+    }
+     h5 {
+   font-family:'Manulife JH Serif';
+   
+      text-align: center;
+      color: #00a758;
+      margin-top: 0.5em;
+      letter-spacing: 0.05em;
+      font-weight: italic;
+}
+    label {
+      display: flex;
+      align-items: center;
+      margin: 7px 0;
+      font-size: 1.07em;
+      font-weight: 400;
+    }
+    label input[type="text"],
+    label input[type="number"],
+    label select {
+        font-family: ;
+      flex: 1;
+      margin-left: 8px;
+      padding: 6px 10px;
+      border: 1px solid #a7b7cc;
+      border-radius: 8px;
+      font-size: 1em;
+      min-width: 0;
+      background: #f5f7fb;
+    }
+    label1 {
+      display: flex;
+      align-items: center;
+      margin: 7px 0;
+      font-size: 1.07em;
+      font-weight: 400;
+    }
+    label1 input[type="text"],
+    label1 input[type="number"],
+    label1 select {
+      flex: 1;
+      margin-left: 8px;
+      padding: 6px 10px;
+      align-items: center;
+      border: 1px solid #a7b7cc;
+      border-radius: 8px;
+      font-size: 1em;
+      min-width: 0;
+      background: #00a758;
+      Opacity: 0.3;
+}
+    input[readonly] {
+      background: #eef2f5;
+      color: #3c3c3c;
+      font-weight: 500;
+      border: 1px solid #ddd;
+    }
+    label2 {
+      display: flex;
+      align-items: center;
+      font-size: 1.07em;
+      font-weight: 400;
+    }
+    hr {
+      margin: 20px 0;
+      border: none;
+      border-top: 1.7px solid #e3e7eb;
+    }
+    button {
+      margin-left: 8px;
+      padding: 6px 10px;
+      align-items: center;
+      display: block;
+      background: #0d72b5;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 26px;
+      font-size: 1.07em;
+      transition: background 0.16s;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0d72b533;
+    }
+    button:hover {
+      background: #085a93;
+    }
+    .memo-group label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3px;
+      font-size: 0.97em;
+    }
+    .memo-group input[type="radio"] {
+      margin-right: 8px;
+    }
+    #tong-thu-nhap {
+      font-size: 1.16em;
+      color: #09810d;
+      font-weight: bold;
+      background: #e4f8e8;
+      border: 2px solid #1ec85d;
+      letter-spacing: 1.2px;
+    }
+    .highlight-label {
+      color: #00a758 !important;
+      font-weight: bold !important;
+    }
+    .unit {
+  font-weight: normal !important;
+  color: #333 !important;
+  font-size: 0.95em;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+  .unit2 {
+    font-size: 0.8em;   
+    font-style: italic;
+    margin-left: 10px;
+}
+ .unit3 {
+    font-size: 0.8em;   
+    font-style: italic;
+    margin-left: 5px;
+    text-align: bottom;
+}
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 6px 2px 16px 2px;
+        border-radius: 0;
+        max-width: 100vw;
+        margin: 0;
+        box-shadow: none;
+      }
+      label, h2, h3, h4 {
+        font-size: 1em;
+      }
+      button {
+        font-size: 1em;
+      }
+    }
+  </style>
+  <script>
+    let data = [], nspro = [], nst6 = [], nst7 = [], nsq6 = [], nsq7 = [], hsdt = [], trackingMDRT = [];
+
+    async function loadData() {
+      data = await (await fetch('data.json')).json();
+      nspro = await (await fetch('nspro.json')).json();
+      nst6 = await (await fetch('6nst.json')).json();
+      nst7 = await (await fetch('7nst.json')).json();
+      nsq6 = await (await fetch('6NSQ.json')).json();
+      nsq7 = await (await fetch('7NSQ.json')).json();
+      hsdt = await (await fetch('hsdt.json')).json();
+      try {
+        trackingMDRT = await (await fetch('TRACKING MDRT.json')).json();
+      } catch (e) {
+        trackingMDRT = [];
+      }
+    }
+
+    function getCurrentMonth() {
+      return new Date().getMonth() + 1;
+    }
+
+    function populateMonthSelect() {
+      const currentMonth = getCurrentMonth();
+      const select = document.getElementById("month-select");
+      select.innerHTML = '';
+      for (let m = currentMonth; m <= 12; m++) {
+        const option = document.createElement("option");
+        option.value = m;
+        option.text = `Tháng ${m}`;
+        select.appendChild(option);
+      }
+    }
+
+    function formatNumber(val) {
+      // Trả về "" nếu input rỗng, không ép về 0
+      if (val === "" || val === null || val === undefined || isNaN(val)) return "";
+      return Number(val).toLocaleString('vi-VN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    // Helper: chuyển giá trị có thể có dấu . phân cách nghìn, , phân cách thập phân -> về số thực JS
+    function parseVnNumber(str) {
+      if (typeof str === "number") return str;
+      if (!str) return 0;
+      // loại bỏ dấu cách/thừa, đổi dấu phẩy thành chấm, loại bỏ dấu chấm phân cách nghìn (giữ lại dấu thập phân sau cùng)
+      // 2.476.086,92 -> 2476086.92
+      str = str.toString().replace(/\./g, '').replace(',', '.');
+      return parseFloat(str);
+    }
+
+    function getHeSoThuong(p13) {
+      if (p13 === null || p13 === undefined || p13 === '' || isNaN(p13)) return 1;
+      let heSo = p13 / 100;
+      for (let i = hsdt.length - 1; i >= 0; i--) {
+        const moc = hsdt[i]["P13 cá nhân"];
+        const tile = hsdt[i]["TỶ LỆ"];
+        if (moc !== null && p13 >= moc) {
+          heSo = tile;
+          break;
+        }
+      }
+      return heSo;
+    }
+
+    function searchAgent() {
+      const input = document.getElementById("agent-id").value.trim().toLowerCase();
+      const agent = data.find(row => row["Mã Đại lý"].toLowerCase() === input);
+      if (agent) {
+        document.getElementById("khu-vuc").value = agent["Khu vực"] || "";
+        document.getElementById("ho-ten").value = agent["Tên Đại lý"] || "";
+        document.getElementById("nhom-dai-ly").value = agent["Nhóm Đại lý"] || "";
+        document.getElementById("thang-lam-viec").value = agent["Số tháng làm việc"] || "";
+
+        let p13 = agent["TLDTHD cá nhân"];
+        p13 = (p13 === '' || p13 === undefined || p13 === null) ? null : parseFloat(p13);
+        document.getElementById("p13-ca-nhan").value = p13 ?? '';
+
+        const heSo = getHeSoThuong(p13);
+        document.getElementById("he-so-thuong").value = heSo;
+
+        const fycT1 = parseFloat(agent["FYC tháng T-1"]) || 0;
+        const fycT2 = parseFloat(agent["FYC tháng T-2"]) || 0;
+        document.getElementById("tong-fyc").value = formatNumber(fycT1 + fycT2);
+
+        // Tổng FYP MDRT đến tháng T-1
+	let mdrtFyp = agent["MDRT-FYP tới hiện tại"];
+	let fypThangT = agent["FYP tháng T"];
+	mdrtFyp = (mdrtFyp === '' || mdrtFyp === undefined || mdrtFyp === null) ? 0 : parseFloat(mdrtFyp);
+	fypThangT = (fypThangT === '' || fypThangT === undefined || fypThangT === null) ? 0 : parseFloat(fypThangT);
+	let mdrtFypDenT1 = mdrtFyp - fypThangT;
+	document.getElementById("mdrt-fyp").value = formatNumber(mdrtFypDenT1);
+
+        // Tổng FYC quý hiện tại = tổng FYC trong quý - FYC tháng T
+        const tongFYCQuyHienTai = parseFloat(agent["Tổng FYC trong Quý hiện tại"] ?? agent["Tổng FYC trong Qúy hiện tại"]) || 0;
+        const fycThangT = parseFloat(agent["FYC tháng T"]) || 0;
+        const tongFYCQuyHieu = tongFYCQuyHienTai - fycThangT;
+        document.getElementById("tong-fyc-quy").value = formatNumber(tongFYCQuyHieu);
+
+      } else {
+        alert("Đại lý chưa có quyền xem thông tin");
+      }
+    }
+
+    function initEnterSearch() {
+      document.getElementById("agent-id").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          searchAgent();
+        }
+      });
+    }
+
+    function calculateIncome() {
+      const fypChinh = parseFloat(document.getElementById("fyp-chinh").value) || 0;
+      const fypKem = parseFloat(document.getElementById("fyp-kem").value) || 0;
+      const tongFYP = fypChinh + fypKem;
+      document.getElementById("tong-fyp").value = formatNumber(tongFYP);
+
+      const fycChinh = fypChinh * 0.3;
+      const fycKem = fypKem * 0.2;
+      const thuongKem = fypKem * 0.2;
+      const fycThuong = fycChinh + fycKem;
+
+      document.getElementById("fyc-chinh").value = formatNumber(fycChinh);
+      document.getElementById("fyc-kem").value = formatNumber(fycKem);
+      document.getElementById("thuong-kem").value = formatNumber(thuongKem);
+      document.getElementById("fyc-thuong").value = formatNumber(fycThuong);
+
+      calculateNSPro();
+      calculateNST();
+      calculateNSQ();
+      calculateMemoBonus();
+      calculateThuongMDRT();
+      calculateTongThuNhap();
+    }
+
+    function calculateNSPro() {
+      const cc = parseFloat(document.getElementById("tong-cc").value) || 0;
+      const tongFYP = parseVnNumber(document.getElementById("tong-fyp").value);
+      const rank = document.getElementById("nhom-dai-ly").value?.trim();
+      let result = 0;
+      if (cc >= 1 && rank) {
+        for (let i = 0; i < nspro.length; i++) {
+          const row = nspro[i];
+          if (tongFYP >= row["FYP của tháng xét thưởng"]) {
+            result = row[rank] || 0;
+          }
+        }
+      }
+      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
+      document.getElementById("thuong-nspro").value = formatNumber(result * heSo);
+    }
+
+    function calculateNST() {
+      const thangLamViec = parseInt(document.getElementById("thang-lam-viec").value) || 0;
+      const tongFYC = parseVnNumber(document.getElementById("tong-fyc").value);
+      const fycThuong = parseVnNumber(document.getElementById("fyc-thuong").value);
+      const tongFYCQuy = tongFYC + fycThuong;
+      const bangNST = thangLamViec <= 6 ? nst6 : nst7;
+
+      let tyLeThuong = 0;
+      for (const row of bangNST) {
+        if (tongFYCQuy >= parseFloat(row["FYC trong 3 tháng gần nhất"])) {
+          tyLeThuong = row["% Tỷ lệ thưởng năng suất tháng"];
+          break;
+        }
+      }
+      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
+      document.getElementById("thuong-nst").value = formatNumber(fycThuong * tyLeThuong * heSo);
+    }
+
+    function calculateNSQ() {
+      const selectedMonth = parseInt(document.getElementById("month-select").value) || 0;
+      if (![3, 6, 9, 12].includes(selectedMonth)) {
+        document.getElementById("thuong-nsq").value = formatNumber(0);
+        return;
+      }
+      const thangLamViec = parseInt(document.getElementById("thang-lam-viec").value) || 0;
+      const tongFYCQuyHienTai = parseVnNumber(document.getElementById("tong-fyc-quy").value);
+      const fycThuong = parseVnNumber(document.getElementById("fyc-thuong").value);
+      const tongFYCQuy = fycThuong + tongFYCQuyHienTai;
+
+      const nsqTable = thangLamViec <= 6 ? nsq6 : nsq7;
+      const nhom = (document.getElementById("nhom-dai-ly").value || "").trim();
+
+      function getNSQCol(row, nhom) {
+        const keys = Object.keys(row).reduce((a,k)=>{a[k.trim().toLowerCase()]=k;return a;},{});
+        if (nhom.toLowerCase() === "manulife pro vàng" || nhom.toLowerCase() === "manulife pro bạch kim") {
+          return row[keys["manulife"]] || row[keys["manulife pro"]] || row[keys["manulife pro vàng"]] || row[keys["manulife pro bạch kim"]];
+        }
+        return row[keys["dl thường"]] || row[keys["đại lý"]] || row[keys["dl thuong"]];
+      }
+
+      let tyLe = 0;
+      for (let i = 0; i < nsqTable.length; i++) {
+        const row = nsqTable[i];
+        if (tongFYCQuy >= parseFloat(row["FYC của quý xét thưởng"])) {
+          let val = getNSQCol(row, nhom);
+          val = typeof val === "string" ? val.replace("%", "") : val;
+          tyLe = parseFloat(val) / 100 || 0;
+          break;
+        }
+      }
+      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
+      const thuongNSQ = tongFYCQuy * tyLe * heSo;
+      document.getElementById("thuong-nsq").value = formatNumber(thuongNSQ);
+    }
+
+    function calculateMemoBonus() {
+      const cc = parseInt(document.getElementById("tong-cc").value) || 0;
+      const fyp = parseVnNumber(document.getElementById("tong-fyp").value);
+      const selected = document.querySelector('input[name="memo-period"]:checked');
+      if (!selected) {
+        document.getElementById("thuong-memo").value = formatNumber(0);
+        calculateTongThuNhap();
+        return;
+      }
+      const period = parseInt(selected.value);
+      let muc1 = 0, muc2 = 0;
+      if (period === 1) [muc1, muc2] = [2500, 1500];
+      if (period === 2) [muc1, muc2] = [2000, 1000];
+      if (period === 3) [muc1, muc2] = [1500, 750];
+
+      let ccMuc1 = 0, ccMuc2 = 0;
+      let remainFYP = fyp;
+      for (let i = 0; i < cc; i++) {
+        const chia = remainFYP / (cc - i);
+        if (chia >= 25000) {
+          ccMuc1 += 1;
+          remainFYP -= 25000;
+        } else if (chia >= 16000) {
+          ccMuc2 += 1;
+          remainFYP -= 16000;
+        } else {
+          break;
+        }
+      }
+      const totalBonus = ccMuc1 * muc1 + ccMuc2 * muc2;
+      document.getElementById("thuong-memo").value = formatNumber(totalBonus);
+      calculateTongThuNhap();
+    }
+
+    function calculateThuongMDRT() {
+      const thangDuTinh = parseInt(document.getElementById("month-select").value);
+      const mdrtFypStr = document.getElementById("mdrt-fyp").value;
+      const mdrtFyp = parseVnNumber(mdrtFypStr);
+      const agent = data.find(row => row["Mã Đại lý"].toLowerCase() === document.getElementById("agent-id").value.trim().toLowerCase());
+      if (!agent) {
+        document.getElementById("thuong-mdrt").value = formatNumber(0);
+        return;
+      }
+      const mdrtRow = trackingMDRT.find(row => parseInt(row["Tháng xét"]) === thangDuTinh);
+      if (!mdrtRow) {
+        document.getElementById("thuong-mdrt").value = formatNumber(0);
+        return;
+      }
+      const fypYeuCau = parseFloat(mdrtRow["FYP YÊU CẦU"]) || 0;
+      const muc1 = parseFloat(mdrtRow["MỨC 1 THẤP"]) || 0;
+      const muc2 = parseFloat(mdrtRow["MỨC 2 CAO"]) || 0;
+      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
+      const kq = fypYeuCau > 0 ? mdrtFyp / fypYeuCau : 0;
+      let thuong = 0;
+      if (kq >= 0.9 && kq < 1) thuong = muc1;
+      if (kq >= 1) thuong = muc2;
+      thuong = thuong * heSo;
+      document.getElementById("thuong-mdrt").value = formatNumber(thuong);
+    }
+
+    function calculateTongThuNhap() {
+      const getVal = id => parseVnNumber(document.getElementById(id).value);
+      const fycChinh = getVal("fyc-chinh");
+      const fycKem = getVal("fyc-kem");
+      const thuongKem = getVal("thuong-kem");
+      const thuongNSPro = getVal("thuong-nspro");
+      const thuongNST = getVal("thuong-nst");
+      const thuongNSQ = getVal("thuong-nsq");
+      const thuongMemo = getVal("thuong-memo");
+      const thuongMDRT = getVal("thuong-mdrt");
+      const tongThuNhap = fycChinh + fycKem + thuongKem + thuongNSPro + thuongNST + thuongNSQ + thuongMemo + thuongMDRT;
+      document.getElementById("tong-thu-nhap").value = formatNumber(tongThuNhap);
+    }
+
+    window.onload = () => {
+      loadData();
+      populateMonthSelect();
+      initEnterSearch();
+      document.getElementById("fyp-kem").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          document.getElementById("calc-btn").click();
+        }
+      });
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>CÔNG CỤ DỰ TÍNH THU NHẬP</h2>
+	<h5>Vui lòng nhập thông tin tại các trường màu Xanh lá</h5>
+    <label1 class="highlight-label">Tháng dự tính:
+      <select id="month-select"></select>
+    </label1>
+    <label1 class="highlight-label">
+      Mã số đại lý:
+      <input type="text" id="agent-id" autocomplete="off">
+      <button onclick="searchAgent()">Tìm kiếm</button>
+    </label1>
+    <label>Khu vực: <input type="text" id="khu-vuc" readonly></label>
+    <label>Họ và tên: <input type="text" id="ho-ten" readonly></label>
+    <label>Nhóm đại lý: <input type="text" id="nhom-dai-ly" readonly></label>
+    <label>Tháng làm việc: <input type="text" id="thang-lam-viec" readonly></label>
+    <label>P13 cá nhân: <input type="text" id="p13-ca-nhan" readonly></label>
+    <label>Hệ số nhận thưởng: <input type="text" id="he-so-thuong" readonly></label>
+    <label>∑ FYP tính MDRT đến T-1:
+      <input type="text" id="mdrt-fyp" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>Tổng FYC của T-1 và T-2:
+      <input type="text" id="tong-fyc" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>Tổng FYC quý hiện tại:
+      <input type="text" id="tong-fyc-quy" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+
+    <hr>
+    <h3>MỤC TIÊU THÁNG HIỆN TẠI</h3>
+    <label class="highlight-label">
+      Chọn giai đoạn nhận Memo KHỞI ĐỘNG NHANH, NHẬN QUÀ XANH 0001M08/2025/ASBD:
+    </label>
+    <div class="memo-group">
+      <label><input type="radio" name="memo-period" value="1"> Giai đoạn 1 (1-11/8)</label>
+      <label><input type="radio" name="memo-period" value="2"> Giai đoạn 2 (12-25/8)</label>
+      <label><input type="radio" name="memo-period" value="3"> Giai đoạn 3 (26-31/8)</label>
+    </div>
+      <label>Thưởng theo Memo:
+      <input type="text" id="thuong-memo" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label1>
+      Tổng số Hợp đồng:
+      <input type="number" id="tong-cc">
+      <span class="unit2">(CC)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </label1>
+    <label1>
+      FYP SP chính:
+      <input type="number" id="fyp-chinh">
+     <span class="unit2">(nghìn VNĐ)
+    </label1>
+        <label1>
+          FYP SP gắn kèm:
+          <input type="number" id="fyp-kem">
+          <span class="unit2">(nghìn VNĐ)</span>
+        </label1>
+        <label>Tổng FYP:
+          <input type="text" id="tong-fyp" readonly>
+          <span class="unit2">(nghìn VNĐ)</span>
+        </label>
+    <button id="calc-btn" onclick="calculateIncome()">Tính thu nhập</button>
+
+    <h4>Các khoản thu nhập:</h4>
+    <label>FYC SP chính (30%):
+      <input type="text" id="fyc-chinh" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>FYC SP gắn kèm (20%):
+      <input type="text" id="fyc-kem" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>Thưởng thêm SP gắn kèm (20%):
+      <input type="text" id="thuong-kem" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>FYC tính thưởng:
+      <input type="text" id="fyc-thuong" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>Thưởng NSXS Manulife Pro:
+      <input type="text" id="thuong-nspro" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>Thưởng Năng suất tháng:
+      <input type="text" id="thuong-nst" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>Thưởng Năng suất quý:
+      <input type="text" id="thuong-nsq" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+    <label>Thưởng Tiến Độ MDRT:
+      <input type="text" id="thuong-mdrt" readonly>
+      <span class="unit2">(nghìn VNĐ)</span>
+    </label>
+
+    <hr>
+    <label><h4><b>TỔNG THU NHẬP DỰ KIẾN:</b></h4> 
+      <input type="text" id="tong-thu-nhap" readonly>
+      <span class="unit3" > (nghìn VNĐ)</span>
+    </label>
+  </div>
+</body>
+</html>
