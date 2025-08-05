@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>CÔNG CỤ DỰ TÍNH THU NHẬP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="font/fonts.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      min-height: 100vh;
+      background: url('BGINCOME.webp') center/cover no-repeat fixed;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      font-family: 'Manulife JH Sans', Arial, sans-serif;
+    }
+    .container {
+      max-width: 900px;
+      background: #fff;
+      margin: 36px auto 36px auto;
+      border-radius: 14px;
+      box-shadow: 0 2px 16px #bbb8;
+      padding: 38px 38px 32px 38px;
+      box-sizing: border-box;
+    }
+    h1 {
+      font-size: 2.45em;
+      text-align: center;
+      color: #0051c1;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 0.13em;
+      letter-spacing: 0.04em;
+      font-family: 'Manulife JH Sans', Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .note-green {
+      color: #00a758;
+      font-style: italic;
+      font-size: 1.08em;
+      margin-top: 0;
+      margin-bottom: 0.1em;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .note-right {
+      text-align: right;
+      font-size: 0.97em;
+      font-style: italic;
+      margin-bottom: 6px;
+      color: #333b;
+      white-space: nowrap;
+    }
+    hr {
+      margin: 20px 0 18px 0;
+      border: none;
+      border-top: 1.3px solid #e3e7eb;
+    }
+    .top-fields, .top-fields-2 {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .top-fields-2 {
+      margin-bottom: 8px;
+    }
+    .top-fields > .field, .top-fields-2 > .field {
+      flex: 1 1 0;
+      min-width: 70px;
+      max-width: 260px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+    .field label {
+      font-size: 1em;
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: #222;
+      letter-spacing: 0.01em;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .field input, .field select {
+      height: 40px;
+      padding: 0 12px;
+      font-size: 1.08em;
+      border: 1.3px solid #c7d5e6;
+      border-radius: 7px;
+      background: #fafbfd;
+      font-family: inherit;
+      font-weight: 600;
+      color: #0051c1;
+      outline: none;
+      transition: border-color .18s;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .field input[readonly] {
+      background: #fafbfd;
+      color: #232b3b;
+      font-weight: 600;
+      border: 1.1px solid #bbb;
+    }
+    /* Ô nhập thủ công */
+    #agent-id, #ngay-gia-nhap, #tong-cc, #fyp-chinh, #fyp-kem {
+      background: #e4faee !important;
+      border: 1.4px solid #1be291;
+      color: #048f60;
+    }
+    /* Rộng các trường theo yêu cầu */
+    #ho-ten { min-width: 180px; width: 230px; max-width: 340px; }
+    #khu-vuc { width: 65px; min-width: 50px; max-width: 80px;}
+    #thang-lam-viec { width: 70px; min-width: 45px; max-width: 88px;}
+    #nhom-dai-ly { min-width: 110px; width: 160px; max-width: 205px;}
+    #tong-cc { width: 90px;}
+    #fyp-chinh, #fyp-kem { width: 120px;}
+    #tong-fyp { width: 140px;}
+    /* Đảo vị trí MDRT, FYC Quý hiện tại */
+    #mdrt-fyp, #tong-fyc-quy { width: 140px;}
+    /* Bảng mục tiêu tháng */
+    .goals-row { display: flex; gap: 22px; margin-bottom: 10px; align-items: flex-end;}
+    .goals-row > .field { min-width: 100px; flex: 1 1 0;}
+    .goals-row .field input {
+      background: #e4faee !important;
+      color: #048f60;
+      font-weight: 700;
+      border: 1.3px solid #1be291;
+      text-align: center;
+    }
+    /* Radio group */
+    .memo-radio-row {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      margin-bottom: 10px;
+      font-size: 1.05em;
+      white-space: nowrap;
+    }
+    .memo-radio-row label {
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+      margin: 0;
+      color: #232b3b;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+    .memo-radio-row input[type="radio"] { margin-right: 7px;}
+    .memo-radio-note {
+      font-style: italic;
+      color: #232b3be0;
+      margin-bottom: 4px;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+    .center-btn {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2px;
+    }
+    .calc-btn {
+      padding: 0 32px;
+      background: #0051c1;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.17em;
+      height: 42px;
+      border-radius: 9px;
+      border: none;
+      margin-top: 4px;
+      margin-bottom: 0;
+      box-shadow: 0 2px 7px #0051c133;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .calc-btn:hover { background: #004199; }
+    /* Bảng thu nhập */
+    .income-section-title {
+      color: #0051c1;
+      font-size: 1.18em;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .income-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      align-items: flex-end;
+      white-space: nowrap;
+    }
+    .income-group .field {
+      min-width: 100px;
+      flex: 1 1 0;
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+    .income-group .field input {
+      background: #fafbfd !important;
+      color: #0051c1;
+      border: 1.1px solid #b8d6eb;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+    }
+    /* Dài ô NSXS, các ô khác nhỏ lại */
+    #thuong-nspro { width: 230px; min-width: 150px;}
+    #thuong-nst, #thuong-nsq, #thuong-mdrt { width: 108px; min-width: 80px;}
+    /* Thưởng Memo Tháng */
+    .income-mini-title { font-size: 1em; color: #0051c1; font-weight: 600; margin-bottom: 4px; text-align: left; margin-left: 2px; white-space: nowrap;}
+    .income-note {
+      font-size: 1em;
+      color: #0051c1;
+      margin-bottom: 2px;
+      text-align: left;
+      margin-left: 4px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    #thuong-memo { width: 200px; background: #fafbfd !important; color: #0051c1; border: 1.1px solid #b8d6eb; text-align: center;}
+    /* Tổng thu nhập, tỷ lệ */
+    .summary-row {
+      display: flex;
+      gap: 28px;
+      margin-top: 18px;
+      margin-bottom: 14px;
+      justify-content: center;
+      align-items: flex-end;
+      white-space: nowrap;
+    }
+    .summary-block {
+      flex: 1 1 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .summary-block label {
+      color: #0051c1;
+      font-weight: 700;
+      font-size: 1.13em;
+      letter-spacing: 0.02em;
+      margin-bottom: 3px;
+      display: block;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .summary-block input {
+      background: #fff;
+      color: #048f60;
+      border: 2px solid #00a578;
+      border-radius: 8px;
+      font-size: 2.1em;
+      font-weight: 900;
+      height: 52px;
+      text-align: center;
+      width: 95%;
+      max-width: 320px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      white-space: nowrap;
+    }
+    /* Xuất PDF */
+    .export-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 6px;
+    }
+    .export-btn {
+      background: #0051c1;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.14em;
+      padding: 0 56px;
+      height: 42px;
+      border-radius: 9px;
+      border: none;
+      margin-top: 0;
+      margin-bottom: 0;
+      box-shadow: 0 2px 7px #0051c133;
+      cursor: pointer;
+      transition: background .18s;
+      white-space: nowrap;
+    }
+    .export-btn:hover { background: #004199; }
+    @media (max-width: 950px) {
+      .container { max-width: 99vw; padding: 7px 2px; }
+      .top-fields, .top-fields-2, .goals-row, .income-group, .summary-row { flex-direction: column; gap: 7px; }
+      .center-btn { margin-bottom: 4px; }
+      .summary-row { gap: 8px; }
+      .income-section-title { font-size: 1em; }
+    }
+  </style>
+  <script>
+    let data = [], nspro = [], nst6 = [], nst7 = [], nsq6 = [], nsq7 = [], hsdt = [], trackingMDRT = [];
+    async function loadData() {
+      data = await (await fetch('data.json')).json();
+      nspro = await (await fetch('nspro.json')).json();
+      nst6 = await (await fetch('6nst.json')).json();
+      nst7 = await (await fetch('7nst.json')).json();
+      nsq6 = await (await fetch('6NSQ.json')).json();
+      nsq7 = await (await fetch('7NSQ.json')).json();
+      hsdt = await (await fetch('hsdt.json')).json();
+      try {
+        trackingMDRT = await (await fetch('TRACKING MDRT.json')).json();
+      } catch (e) {
+        trackingMDRT = [];
+      }
+    }
+    function getCurrentMonth() { return new Date().getMonth() + 1; }
+    function populateMonthSelect() {
+      const currentMonth = getCurrentMonth();
+      const select = document.getElementById("month-select");
+      select.innerHTML = '';
+      for (let m = currentMonth; m <= 12; m++) {
+        const option = document.createElement("option");
+        option.value = m;
+        option.text = `Tháng ${m}`;
+        select.appendChild(option);
+      }
+    }
+    function formatNumber(val) {
+      if (val === "" || val === null || val === undefined || isNaN(val)) return "";
+      return Number(val).toLocaleString('vi-VN', {minimumFractionDigits: 0, maximumFractionDigits: 3});
+    }
+    function parseVnNumber(str) {
+      if (typeof str === "number") return str;
+      if (!str) return 0;
+      str = str.toString().replace(/\./g, '').replace(',', '.');
+      return parseFloat(str);
+    }
+    function getHeSoThuong(p13) {
+      if (p13 === null || p13 === undefined || p13 === '' || isNaN(p13)) return 1;
+      let heSo = p13 / 100;
+      for (let i = hsdt.length - 1; i >= 0; i--) {
+        const moc = hsdt[i]["P13 cá nhân"];
+        const tile = hsdt[i]["TỶ LỆ"];
+        if (moc !== null && p13 >= moc) {
+          heSo = tile;
+          break;
+        }
+      }
+      return heSo;
+    }
+    function searchAgent() {
+      const inputID = document.getElementById("agent-id").value.trim().toLowerCase();
+      const inputDate = document.getElementById("ngay-gia-nhap").value.trim();
+      if (!inputID || !inputDate) {
+        alert("Vui lòng nhập cả Mã số đại lý và Ngày gia nhập");
+        return;
+      }
+      const agent = data.find(row =>
+        (row["Mã Đại lý"]?.toString().toLowerCase() === inputID) &&
+        (row["Ngày gia nhập"]?.toString().trim() === inputDate)
+      );
+      if (agent) {
+        document.getElementById("ho-ten").value = agent["Tên Đại lý"] || "";
+        document.getElementById("khu-vuc").value = agent["Khu vực"] || "";
+        document.getElementById("nhom-dai-ly").value = agent["Nhóm Đại lý"] || "";
+        document.getElementById("thang-lam-viec").value = agent["Số tháng làm việc"] || "";
+        document.getElementById("ngay-gia-nhap").value = agent["Ngày gia nhập"] || "";
+        let p13 = agent["TLDTHD cá nhân"];
+        p13 = (p13 === '' || p13 === undefined || p13 === null) ? null : parseFloat(p13);
+        document.getElementById("p13-ca-nhan").value = p13 ?? '';
+        const heSo = getHeSoThuong(p13);
+        document.getElementById("he-so-thuong").value = heSo;
+        const fycT1 = parseFloat(agent["FYC tháng T-1"]) || 0;
+        const fycT2 = parseFloat(agent["FYC tháng T-2"]) || 0;
+        document.getElementById("tong-fyc").value = formatNumber(fycT1 + fycT2);
+        let mdrtFyp = agent["MDRT-FYP tới hiện tại"];
+        let fypThangT = agent["FYP tháng T"];
+        mdrtFyp = (mdrtFyp === '' || mdrtFyp === undefined || mdrtFyp === null) ? 0 : parseFloat(mdrtFyp);
+        fypThangT = (fypThangT === '' || fypThangT === undefined || fypThangT === null) ? 0 : parseFloat(fypThangT);
+        let mdrtFypDenT1 = mdrtFyp - fypThangT;
+        document.getElementById("mdrt-fyp").value = formatNumber(mdrtFypDenT1);
+        const tongFYCQuyHienTai = parseFloat(agent["Tổng FYC trong Quý hiện tại"] ?? agent["Tổng FYC trong Qúy hiện tại"]) || 0;
+        const fycThangT = parseFloat(agent["FYC tháng T"]) || 0;
+        const tongFYCQuyHieu = tongFYCQuyHienTai - fycThangT;
+        document.getElementById("tong-fyc-quy").value = formatNumber(tongFYCQuyHieu);
+      } else {
+        alert("Không tìm thấy đại lý với thông tin đã nhập hoặc thông tin không khớp!");
+        ["ho-ten","khu-vuc","nhom-dai-ly","thang-lam-viec","p13-ca-nhan","he-so-thuong",
+         "mdrt-fyp","tong-fyc","tong-fyc-quy"].forEach(id => document.getElementById(id).value = "");
+      }
+    }
+    function initEnterSearch() {
+      document.getElementById("agent-id").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") searchAgent();
+      });
+      document.getElementById("ngay-gia-nhap").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") searchAgent();
+      });
+    }
+    function initEnterCC() {
+      document.getElementById("tong-cc").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") document.getElementById("calc-btn").click();
+      });
+    }
+    function calculateIncome() {
+      const soCC = document.getElementById("tong-cc").value;
+      if (!soCC || parseInt(soCC) < 1) {
+        alert("Chưa nhập số lượng hợp đồng!\nBạn cần có ít nhất 1 hợp đồng 16tr FYP thực cấp trong tháng để nhận đầy đủ tiền thưởng. Vui lòng nhập lại");
+        document.getElementById("tong-cc").focus();
+        return;
+      }
+      const fypChinh = parseFloat(document.getElementById("fyp-chinh").value) || 0;
+      const fypKem = parseFloat(document.getElementById("fyp-kem").value) || 0;
+      const tongFYP = fypChinh + fypKem;
+      document.getElementById("tong-fyp").value = formatNumber(tongFYP);
+      const fycChinh = fypChinh * 0.3;
+      const fycKem = fypKem * 0.2;
+      const thuongKem = fypKem * 0.2;
+      const fycThuong = fycChinh + fycKem;
+      document.getElementById("fyc-chinh").value = formatNumber(fycChinh);
+      document.getElementById("fyc-kem").value = formatNumber(fycKem);
+      document.getElementById("thuong-kem").value = formatNumber(thuongKem);
+      document.getElementById("fyc-thuong").value = formatNumber(fycThuong);
+      calculateNSPro();
+      calculateNST();
+      calculateNSQ();
+      calculateMemoBonus();
+      calculateThuongMDRT();
+      calculateTongThuNhap();
+    }
+    function calculateNSPro() {
+      const cc = parseFloat(document.getElementById("tong-cc").value) || 0;
+      const tongFYP = parseVnNumber(document.getElementById("tong-fyp").value);
+      const rank = document.getElementById("nhom-dai-ly").value?.trim();
+      let result = 0;
+      if (cc >= 1 && rank) {
+        for (let i = 0; i < nspro.length; i++) {
+          const row = nspro[i];
+          if (tongFYP >= row["FYP của tháng xét thưởng"]) {
+            result = row[rank] || 0;
+          }
+        }
+      }
+      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
+      document.getElementById("thuong-nspro").value = formatNumber(result * heSo);
+    }
+    function calculateNST() {
+      const thangLamViec = parseInt(document.getElementById("thang-lam-viec").value) || 0;
+      const tongFYC = parseVnNumber(document.getElementById("tong-fyc").value);
+      const fycThuong = parseVnNumber(document.getElementById("fyc-thuong").value);
+      const tongFYCQuy = tongFYC + fycThuong;
+      const bangNST = thangLamViec <= 6 ? nst6 : nst7;
+      let tyLeThuong = 0;
+      for (const row of bangNST) {
+        if (tongFYCQuy >= parseFloat(row["FYC trong 3 tháng gần nhất"])) {
+          tyLeThuong = row["% Tỷ lệ thưởng năng suất tháng"];
+          break;
+        }
+      }
+      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
+      document.getElementById("thuong-nst").value = formatNumber(fycThuong * tyLeThuong * heSo);
+    }
+    function calculateNSQ() {
+      const selectedMonth = parseInt(document.getElementById("month-select").value) || 0;
+      if (![3, 6, 9, 12].includes(selectedMonth)) {
+        document.getElementById("thuong-nsq").value = formatNumber(0);
+        return;
+      }
+      const thangLamViec = parseInt(document.getElementById("thang-lam-viec").value) || 0;
+      const tongFYCQuyHienTai = parseVnNumber(document.getElementById("tong-fyc-quy").value);
+      const fycThuong = parseVnNumber(document.getElementById("fyc-thuong").value);
+      const tongFYCQuy = fycThuong + tongFYCQuyHienTai;
+      const nsqTable = thangLamViec <= 6 ? nsq6 : nsq7;
+      const nhom = (document.getElementById("nhom-dai-ly").value || "").trim();
+      function getNSQCol(row, nhom) {
+        const keys = Object.keys(row).reduce((a,k)=>{a[k.trim().toLowerCase()]=k;return a;},{}); 
+        if (nhom.toLowerCase() === "manulife pro vàng" || nhom.toLowerCase() === "manulife pro bạch kim") {
+          return row[keys["manulife"]] || row[keys["manulife pro"]] || row[keys["manulife pro vàng"]] || row[keys["manulife pro bạch kim"]];
+        }
+        return row[keys["dl thường"]] || row[keys["đại lý"]] || row[keys["dl thuong"]];
+      }
+      let tyLe = 0;
+      for (let i = 0; i < nsqTable.length; i++) {
+        const row = nsqTable[i];
+        if (tongFYCQuy >= parseFloat(row["FYC của quý xét thưởng"])) {
+          let val = getNSQCol(row, nhom);
+          val = typeof val === "string" ? val.replace("%", "") : val;
+          tyLe = parseFloat(val) / 100 || 0;
+          break;
+        }
+      }
+      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
+      const thuongNSQ = tongFYCQuy * tyLe * heSo;
+      document.getElementById("thuong-nsq").value = formatNumber(thuongNSQ);
+    }
+    function calculateMemoBonus() {
+      const cc = parseInt(document.getElementById("tong-cc").value) || 0;
+      const fyp = parseVnNumber(document.getElementById("tong-fyp").value);
+      const selected = document.querySelector('input[name="memo-period"]:checked');
+      if (!selected) {
+        document.getElementById("thuong-memo").value = formatNumber(0);
+        calculateTongThuNhap();
+        return;
+      }
+      const period = parseInt(selected.value);
+      let muc1 = 0, muc2 = 0;
+      if (period === 1) [muc1, muc2] = [2500, 1500];
+      if (period === 2) [muc1, muc2] = [2000, 1000];
+      if (period === 3) [muc1, muc2] = [1500, 750];
+      let ccMuc1 = 0, ccMuc2 = 0;
+      let remainFYP = fyp;
+      for (let i = 0; i < cc; i++) {
+        const chia = remainFYP / (cc - i);
+        if (chia >= 25000) {
+          ccMuc1 += 1;
+          remainFYP -= 25000;
+        } else if (chia >= 16000) {
+          ccMuc2 += 1;
+          remainFYP -= 16000;
+        } else {
+          break;
+        }
+      }
+      const totalBonus = ccMuc1 * muc1 + ccMuc2 * muc2;
+      document.getElementById("thuong-memo").value = formatNumber(totalBonus);
+      calculateTongThuNhap();
+    }
+    function calculateThuongMDRT() {
+      const thangDuTinh = parseInt(document.getElementById("month-select").value);
+      const mdrtFypStr = document.getElementById("mdrt-fyp").value;
+      const mdrtFyp = parseVnNumber(mdrtFypStr);
+      const agent = data.find(row => 
+        row["Mã Đại lý"]?.toString().toLowerCase() === document.getElementById("agent-id").value.trim().toLowerCase() &&
+        row["Ngày gia nhập"]?.toString().trim() === document.getElementById("ngay-gia-nhap").value.trim()
+      );
+      if (!agent) {
+        document.getElementById("thuong-mdrt").value = formatNumber(0);
+        return;
+      }
+      const mdrtRow = trackingMDRT.find(row => parseInt(row["Tháng xét"]) === thangDuTinh);
+      if (!mdrtRow) {
+        document.getElementById("thuong-mdrt").value = formatNumber(0);
+        return;
+      }
+      const fypYeuCau = parseFloat(mdrtRow["FYP YÊU CẦU"]) || 0;
+      const muc1 = parseFloat(mdrtRow["MỨC 1 THẤP"]) || 0;
+      const muc2 = parseFloat(mdrtRow["MỨC 2 CAO"]) || 0;
+      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
+      const kq = fypYeuCau > 0 ? mdrtFyp / fypYeuCau : 0;
+      let thuong = 0;
+      if (kq >= 0.9 && kq < 1) thuong = muc1;
+      if (kq >= 1) thuong = muc2;
+      thuong = thuong * heSo;
+      document.getElementById("thuong-mdrt").value = formatNumber(thuong);
+    }
+    function calculateTongThuNhap() {
+      const getVal = id => parseVnNumber(document.getElementById(id).value);
+      const fycChinh = getVal("fyc-chinh");
+      const fycKem = getVal("fyc-kem");
+      const thuongKem = getVal("thuong-kem");
+      const thuongNSPro = getVal("thuong-nspro");
+      const thuongNST = getVal("thuong-nst");
+      const thuongNSQ = getVal("thuong-nsq");
+      const thuongMemo = getVal("thuong-memo");
+      const thuongMDRT = getVal("thuong-mdrt");
+      const tongThuNhap = fycChinh + fycKem + thuongKem + thuongNSPro + thuongNST + thuongNSQ + thuongMemo + thuongMDRT;
+      document.getElementById("tong-thu-nhap").value = formatNumber(tongThuNhap);
+      const tongFYP = getVal("tong-fyp");
+      let tyLe = "";
+      if (tongFYP > 0) {
+        tyLe = ((tongThuNhap / tongFYP) * 100).toFixed(2) + " %";
+      }
+      document.getElementById("ty-le-thu-nhap").value = tyLe;
+    }
+    function exportPDF() {
+      const element = document.querySelector('.container');
+      const opt = {
+        margin:       0,
+        filename:     'du-tinh-thu-nhap.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+      html2pdf().set(opt)
+        .from(element)
+        .toPdf()
+        .get('pdf')
+        .then(function (pdf) {
+          const totalPages = pdf.internal.getNumberOfPages();
+          if (totalPages > 1) {
+            for (let i = totalPages; i > 1; i--) pdf.deletePage(i);
+          }
+        })
+        .save();
+    }
+    window.onload = () => {
+      loadData();
+      populateMonthSelect();
+      initEnterSearch();
+      initEnterCC();
+      document.getElementById("fyp-kem").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          document.getElementById("calc-btn").click();
+        }
+      });
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>CÔNG CỤ DỰ TÍNH THU NHẬP</h1>
+    <div class="note-green">(Vui lòng nhập thông tin tại các ô tô màu)</div>
+    <div class="note-right">Dữ liệu tham chiếu được chốt hết 31/07/2025</div>
+    <hr>
+    <div class="top-fields">
+      <div class="field">
+        <label for="month-select">Tháng dự tính</label>
+        <select id="month-select"></select>
+      </div>
+      <div class="field">
+        <label for="agent-id">Mã số đại lý</label>
+        <input type="text" id="agent-id" maxlength="5">
+      </div>
+      <div class="field">
+        <label for="ngay-gia-nhap">Ngày gia nhập</label>
+        <input type="text" id="ngay-gia-nhap" maxlength="10">
+      </div>
+      <div class="field" style="min-width:170px;flex:1.5;">
+        <label>&nbsp;</label>
+        <button class="ref-btn" onclick="searchAgent()">Lấy dữ liệu tham chiếu</button>
+      </div>
+    </div>
+    <div class="top-fields-2">
+      <div class="field" style="flex:2;">
+        <label for="ho-ten">Họ và tên</label>
+        <input type="text" id="ho-ten" maxlength="30" readonly>
+      </div>
+      <div class="field" style="flex:0.7;">
+        <label for="khu-vuc">Khu vực</label>
+        <input type="text" id="khu-vuc" maxlength="8" readonly>
+      </div>
+      <div class="field">
+        <label for="nhom-dai-ly">Nhóm đại lý</label>
+        <input type="text" id="nhom-dai-ly" maxlength="21" readonly>
+      </div>
+      <div class="field" style="flex:0.7;">
+        <label for="thang-lam-viec">Tháng làm việc</label>
+        <input type="text" id="thang-lam-viec" maxlength="3" readonly>
+      </div>
+    </div>
+    <div class="top-fields-2">
+      <div class="field">
+        <label for="p13-ca-nhan">P13 cá nhân</label>
+        <input type="text" id="p13-ca-nhan" maxlength="8" readonly>
+      </div>
+      <div class="field">
+        <label for="he-so-thuong">Hệ số thưởng</label>
+        <input type="text" id="he-so-thuong" maxlength="3" readonly>
+      </div>
+      <div class="field">
+        <label for="tong-fyc-quy">∑FYC Quý hiện tại</label>
+        <input type="text" id="tong-fyc-quy" maxlength="12" readonly>
+      </div>
+      <div class="field">
+        <label for="mdrt-fyp">∑FYP tiến độ MDRT</label>
+        <input type="text" id="mdrt-fyp" maxlength="12" readonly>
+      </div>
+      <div class="field">
+        <label for="tong-fyc">∑FYC T-1 & T-2</label>
+        <input type="text" id="tong-fyc" maxlength="12" readonly>
+      </div>
+    </div>
+    <hr>
+    <div class="block-title">MỤC TIÊU THÁNG HIỆN TẠI</div>
+    <div class="goals-row">
+      <div class="field">
+        <label for="tong-cc">∑ Số hợp đồng</label>
+        <input type="number" id="tong-cc" maxlength="2">
+      </div>
+      <div class="field">
+        <label for="fyp-chinh">∑ FYP SP Chính (000)</label>
+        <input type="number" id="fyp-chinh" maxlength="12">
+      </div>
+      <div class="field">
+        <label for="fyp-kem">∑ FYP SP Gắn kèm (000)</label>
+        <input type="number" id="fyp-kem" maxlength="12">
+      </div>
+      <div class="field">
+        <label for="tong-fyp">∑ FYP từ các HD</label>
+        <input type="text" id="tong-fyp" maxlength="12" readonly>
+      </div>
+    </div>
+    <div class="memo-radio-note">
+      Chọn giai đoạn nhận thưởng Memo KHỞI ĐỘNG NHANH, NHẬN QUÀ XANH 0001M08/2025/ASBD
+    </div>
+    <div class="memo-radio-row">
+      <label><input type="radio" name="memo-period" value="1"> Giai đoạn 1 (1 - 11/8)</label>
+      <label><input type="radio" name="memo-period" value="2"> Giai đoạn 2 (13 - 25/8)</label>
+      <label><input type="radio" name="memo-period" value="3"> Giai đoạn 3 (26 - 31/8)</label>
+    </div>
+    <div class="center-btn">
+      <button id="calc-btn" class="calc-btn" onclick="calculateIncome()">Tính Thu Nhập</button>
+    </div>
+    <hr>
+    <div class="income-section-title">CÁC KHOẢN THU NHẬP</div>
+    <div class="income-mini-title">1. Hoa hồng sản phẩm (FYC)</div>
+    <div class="income-group">
+      <div class="field">
+        <label for="fyc-chinh">∑ FYC SP Chính (30%)</label>
+        <input type="text" id="fyc-chinh" maxlength="12" readonly>
+      </div>
+      <div class="field">
+        <label for="fyc-kem">∑ FYC SP Gắn kèm (20%)</label>
+        <input type="text" id="fyc-kem" maxlength="12" readonly>
+      </div>
+      <div class="field">
+        <label for="thuong-kem">Bonus SP Gắn kèm (20%)</label>
+        <input type="text" id="thuong-kem" maxlength="12" readonly>
+      </div>
+      <div class="field">
+        <label for="fyc-thuong">∑ FYC Tính chính sách</label>
+        <input type="text" id="fyc-thuong" maxlength="12" readonly>
+      </div>
+    </div>
+    <div class="income-mini-title" style="margin-top:18px;">2. Thưởng theo chính sách chi trả</div>
+    <div class="income-group">
+      <div class="field" style="flex:2;">
+        <label for="thuong-nspro">Thưởng NSXS Manulife Pro</label>
+        <input type="text" id="thuong-nspro" maxlength="12" readonly>
+      </div>
+      <div class="field" style="flex:1;">
+        <label for="thuong-nst">Thưởng NS Tháng</label>
+        <input type="text" id="thuong-nst" maxlength="12" readonly>
+      </div>
+      <div class="field" style="flex:1;">
+        <label for="thuong-nsq">Thưởng NS Quý</label>
+        <input type="text" id="thuong-nsq" maxlength="12" readonly>
+      </div>
+      <div class="field" style="flex:1;">
+        <label for="thuong-mdrt">Thưởng Tiến độ MDRT</label>
+        <input type="text" id="thuong-mdrt" maxlength="12" readonly>
+      </div>
+    </div>
+    <div class="income-mini-title" style="margin-top:18px;">3. Thưởng Memo Tháng</div>
+    <div class="income-group sub" style="margin-top:0;">
+      <div class="field">
+        <label for="thuong-memo" class="income-note">0001M08/2025/ASBD</label>
+        <input type="text" id="thuong-memo" maxlength="12" readonly>
+      </div>
+    </div>
+    <hr>
+    <div class="summary-row">
+      <div class="summary-block">
+        <label for="tong-thu-nhap">Tổng thu nhập dự kiến</label>
+        <input type="text" id="tong-thu-nhap" readonly>
+      </div>
+      <div class="summary-block">
+        <label for="ty-le-thu-nhap">Tỷ lệ thu nhập/doanh thu</label>
+        <input type="text" id="ty-le-thu-nhap" readonly>
+      </div>
+    </div>
+    <div class="export-row">
+      <button onclick="exportPDF()" class="export-btn">Xuất PDF</button>
+    </div>
+  </div>
+</body>
+</html>
