@@ -52,6 +52,25 @@
       color: #333b;
       white-space: nowrap;
     }
+     button {
+      margin: 1px 7px;
+      padding: 6px 10px;
+      align-items: center;
+      display: block;
+      background: #0d72b5;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 26px;
+      font-size: 1.07em;
+      transition: background 0.16s;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0d72b533;
+    }
+    button:hover {
+      background: #085a93;
+    }
     hr {
       margin: 20px 0 18px 0;
       border: none;
@@ -631,8 +650,8 @@
         <label for="ngay-gia-nhap">Ngày gia nhập</label>
         <input type="text" id="ngay-gia-nhap" maxlength="10">
       </div>
+      
       <div class="field" style="min-width:170px;flex:1.5;">
-        <label>&nbsp;</label>
         <button class="ref-btn" onclick="searchAgent()">Lấy dữ liệu tham chiếu</button>
       </div>
     </div>
