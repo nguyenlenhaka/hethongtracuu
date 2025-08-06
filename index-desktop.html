@@ -10,8 +10,7 @@
   <style>
     html, body {height: 100%; margin: 0; padding: 0;}
     body {
-      min-height: 100vh;
-      background: url('BGINCOME.webp') center/cover no-repeat fixed;
+         background: url('BGINCOME.webp') center/cover no-repeat fixed;
       margin: 0;
       padding: 0;
       background-color: #f8f9fa;
@@ -19,13 +18,64 @@
     .container {
       max-width: 480px;
       background: #ffffffee;
-      margin: 20px auto 24px auto;
+      margin: 0px auto 0px auto;
       border-radius: 16px;
       box-shadow: 0 2px 16px #bbb8;
       padding: 18px 15px 24px 15px;
       box-sizing: border-box;
       position: relative;
       z-index: 1;
+    }
+     .top-fields, .top-fields-2 {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .top-fields-2 {
+      margin-bottom: 8px;
+    }
+    .top-fields > .field, .top-fields-2 > .field {
+      min-width: 100px;
+      flex:1 ;
+          }
+    .field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+    .field label {
+      font-size: 1em;
+      font-weight: 500;
+      color: #222;
+      letter-spacing: 0.01em;
+      text-align: left;
+      white-space: nowrap;
+      
+    }
+    .field input, .field select {
+      height: 40px;
+      padding: 0 12px;
+      font-size: 1.08em;
+      border: 1.3px solid #c7d5e6;
+      border-radius: 7px;
+      background-color:rgba(214,255,237,0.3);
+      font-family: inherit;
+      font-weight: 600;
+      color: #0051c1;
+      outline: none;
+      transition: border-color .18s;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .field input[readonly] {
+      background: #fafbfd;
+      color: #00a758;
+      font-weight: 600;
+      border: 1.1px solid #bbb;
     }
     h1 {
       font-family:'Manulife JH Sans';
@@ -50,6 +100,64 @@
       letter-spacing: 0.05em;
       font-weight: 400;
       font-style: italic;
+    }
+     h2 {
+      font-family: 'Manulife JH Sans';
+      font-size: 1.3em !important;
+      text-align: center;
+      color: #00519c;
+      font-weight: 600;
+     
+       margin-bottom:0;
+    }
+    h4 {
+      font-family: 'Manulife JH Sans';
+      font-size: 0.9em !important;
+      text-align: left;
+      color: #00519c;
+      font-weight: bold;
+      margin-bottom:0;
+      margin-top:0.5;
+      
+    }
+     .summary-row {
+      display: flex;
+      gap: 28px;
+      margin-top: 18px;
+      margin-bottom: 14px;
+      justify-content: center;
+      align-items: flex-end;
+      white-space: nowrap;
+    }
+    .summary-block {
+      flex: 1 1 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .summary-block label {
+      color: #0051c1;
+      font-weight: 700;
+      font-size: 1.13em;
+      letter-spacing: 0.02em;
+      margin-bottom: 3px;
+      display: block;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .summary-block input {
+      background: #fff;
+      color: #048f60;
+      border: 2px solid #00a578;
+      border-radius: 8px;
+      font-size: 2.1em;
+      font-weight: 900;
+      height: 52px;
+      text-align: center;
+      width: 95%;
+      max-width: 320px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      white-space: nowrap;
     }
     label {
       display: flex;
@@ -88,30 +196,55 @@
       margin: 7px 7px;
       background-color: rgba( 0,255,1,0.3);
     }
-    input[readonly] {
-      background: #eef2f5;
-      color: #3c3c3c;
-      font-weight: 500;
-      border: 1px solid #ddd;
-    }
-    #tong-thu-nhap, #ty-le-thu-nhap {
-      font-family:'Manulife JH Sans';
+    .note-green {
+      color: #00a758;
+      font-style: italic;
+      font-size: 1em ! important;
+      margin-top: 0;
+      font-weight:bold;
+      margin-bottom: 0.1em;
       text-align: center;
-      height: 2em;
-      font-size: 2em !important;
-      font-weight: 1000 !important;
-      color: #00a578;
-      padding: 0em 0em;
-      border: 2px solid #00a578;
-      border-radius: 8px;
-      width: 80% !important;
-      margin-top:0.5px;
-      box-sizing: border-box;
+      white-space: nowrap;
+    }
+    .note-right {
+      text-align: right;
+      font-size: 0.8em ! important;
+      font-style: italic;
+      margin-bottom: 6px;
+      color: #333;
+      font-weight: bold;
+      white-space: nowrap;
     }
     hr {
-      margin: 20px 0;
       border: none;
       border-top: 1.7px solid #e3e7eb;
+    }
+    .income-mini-title { font-size: 1em; color: #0051c1; font-weight: 600; margin-bottom: 4px; text-align: left; margin-left: 2px; white-space: nowrap;}
+    .income-note {
+      font-size: 1em;
+      color: #0051c1;
+      margin-bottom: 2px;
+      text-align: left;
+      margin-left: 4px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .note-green {
+      color: #00a758;
+      font-style: italic;
+      font-size: 15pt;
+      margin-top: 0;
+      margin-bottom: 0.1em;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .note-right {
+      text-align: right;
+      font-size: 15pt;
+      font-style: italic;
+      margin-bottom: 6px;
+      color: #333b;
+      white-space: nowrap;
     }
     button {
       margin: 1px 7px;
@@ -178,10 +311,7 @@
       button {
         font-size: 1em;
       }
-      #tong-thu-nhap, #ty-le-thu-nhap {
-        font-size: 1.1em !important;
-        width: 98% !important;
-      }
+     
     }
   </style>
   <script>
@@ -242,16 +372,25 @@
       return heSo;
     }
     function searchAgent() {
-      const input = document.getElementById("agent-id").value.trim().toLowerCase();
-      const agent = data.find(row => row["Mã Đại lý"].toLowerCase() === input);
+      const inputID = document.getElementById("agent-id").value.trim().toLowerCase();
+      const inputDate = document.getElementById("ngay-gia-nhap").value.trim();
+      if (!inputID || !inputDate) {
+        alert("Vui lòng nhập cả Mã số đại lý và Ngày gia nhập");
+        return;
+      }
+      const agent = data.find(row =>
+        (row["Mã Đại lý"]?.toString().toLowerCase() === inputID) &&
+        (row["Ngày gia nhập"]?.toString().trim() === inputDate)
+      );
       if (agent) {
-        document.getElementById("khu-vuc").value = agent["Khu vực"] || "";
         document.getElementById("ho-ten").value = agent["Tên Đại lý"] || "";
+        document.getElementById("khu-vuc").value = agent["Khu vực"] || "";
         document.getElementById("nhom-dai-ly").value = agent["Nhóm Đại lý"] || "";
-        document.getElementById("thang-lam-viec").value = agent["Số tháng làm việc"] || "";
+        document.getElementById("thang-lam-viec").value = agent["Số tháng làm việc"] +" tháng"|| "";
+        document.getElementById("ngay-gia-nhap").value = agent["Ngày gia nhập"] || "";
         let p13 = agent["TLDTHD cá nhân"];
         p13 = (p13 === '' || p13 === undefined || p13 === null) ? null : parseFloat(p13);
-        document.getElementById("p13-ca-nhan").value = p13 ?? '';
+        document.getElementById("p13-ca-nhan").value = p13 != null ? p13 + "%" : '';
         const heSo = getHeSoThuong(p13);
         document.getElementById("he-so-thuong").value = heSo;
         const fycT1 = parseFloat(agent["FYC tháng T-1"]) || 0;
@@ -268,14 +407,17 @@
         const tongFYCQuyHieu = tongFYCQuyHienTai - fycThangT;
         document.getElementById("tong-fyc-quy").value = formatNumber(tongFYCQuyHieu);
       } else {
-        alert("Đại lý chưa có quyền xem thông tin");
+        alert("Không tìm thấy đại lý với thông tin đã nhập hoặc thông tin không khớp!");
+        ["ho-ten","khu-vuc","nhom-dai-ly","thang-lam-viec","p13-ca-nhan","he-so-thuong",
+         "mdrt-fyp","tong-fyc","tong-fyc-quy"].forEach(id => document.getElementById(id).value = "");
       }
     }
     function initEnterSearch() {
       document.getElementById("agent-id").addEventListener("keydown", function(e) {
-        if (e.key === "Enter") {
-          searchAgent();
-        }
+        if (e.key === "Enter") searchAgent();
+      });
+      document.getElementById("ngay-gia-nhap").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") searchAgent();
       });
     }
 
@@ -463,29 +605,52 @@
     }
 
     // ----------- XUẤT PDF 1 TRANG -----------
-    function exportPDF() {
-      const element = document.querySelector('.container');
-      const opt = {
-        margin:       0,
-        filename:     'du-tinh-thu-nhap.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-      };
-      html2pdf().set(opt)
-        .from(element)
-        .toPdf()
-        .get('pdf')
-        .then(function (pdf) {
-          // Nếu bị sang trang 2, chỉ giữ trang 1
-          const totalPages = pdf.internal.getNumberOfPages();
-          if (totalPages > 1) {
-            for (let i = totalPages; i > 1; i--) pdf.deletePage(i);
-          }
-        })
-        .save();
-    }
+ function exportPDF() {
+  // 1. Tạo div ảo trên cùng để render PDF
+  let old = document.getElementById('pdf-export');
+  if (old) old.remove(); // Xóa nếu đã tồn tại
+
+  const main = document.querySelector('.container');
+  const pdfDiv = document.createElement('div');
+  pdfDiv.id = 'pdf-export';
+  // Style tuyệt đối nằm sát trên, không bị ảnh hưởng bởi các margin/padding trang
+  pdfDiv.style.position = 'fixed';
+  pdfDiv.style.top = '0';
+  pdfDiv.style.left = '0';
+  pdfDiv.style.width = main.offsetWidth + 'px';
+  pdfDiv.style.background = '#fff';
+  pdfDiv.style.zIndex = '9999';
+  pdfDiv.style.boxShadow = 'none';
+  pdfDiv.style.margin = '0';
+  pdfDiv.style.padding = '0';
+
+  pdfDiv.innerHTML = main.innerHTML;
+  document.body.appendChild(pdfDiv);
+
+  // 2. Chờ 1 chút cho DOM render, rồi xuất PDF
+  setTimeout(() => {
+    const rect = pdfDiv.getBoundingClientRect();
+    const dpi = 96;
+    const pxToMm = px => px * 25.4 / dpi;
+    const widthMM = pxToMm(rect.width);
+    const heightMM = pxToMm(rect.height);
+
+    const opt = {
+      margin: 0,
+      filename: 'du-tinh-thu-nhap.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: [widthMM, heightMM], orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt)
+      .from(pdfDiv)
+      .toPdf()
+      .save()
+      .then(() => pdfDiv.remove());
+  }, 500); // Cho render 1 tí trước khi chụp (có thể tăng lên 200 nếu máy chậm)
+}
+
 
     window.onload = () => {
       loadData();
@@ -503,95 +668,175 @@
 <body>
   <div class="container">
     <h1>CÔNG CỤ DỰ TÍNH THU NHẬP</h1>
-    <h3>(Vui lòng nhập thông tin tại các ô tô màu)</h3>
+    <div class="note-green">(Vui lòng nhập thông tin tại các ô tô màu)</div>
+    <div class="note-right">Dữ liệu tham chiếu được chốt hết 31/07/2025</div>
     <hr>
-    <label1>Tháng<br>Dự tính:
-      <select id="month-select"></select>
-    </label1>
-    <label1>
-      Mã số<br>đại lý:
-      <input type="text" id="agent-id" autocomplete="off">
+    <div class="top-fields">
+  <div class="field">
+    <label for="month-select">Tháng dự tính</label>
+    <select id="month-select"></select>
+  </div>
+  <div class="field">
+    <label for="agent-id">Mã số đại lý</label>
+    <input type="text" id="agent-id">
+  </div>
+  <div class="field">
+    <label for="ngay-gia-nhap">Ngày gia nhập</label>
+    <input type="text" id="ngay-gia-nhap">
+  </div>
+</div>
+    <label>
       <button onclick="searchAgent()">Tìm kiếm</button>
-    </label1>
-    <label>Khu vực: <input type="text" id="khu-vuc" readonly></label>
-    <label>Họ và tên: <input type="text" id="ho-ten" readonly></label>
-    <label>Phân nhóm<br>đại lý: <input type="text" id="nhom-dai-ly" readonly></label>
-    <label>Số tháng<br>làm việc: <input type="text" id="thang-lam-viec" readonly></label>
-    <label>Tỷ lệ DTHĐ<br>P13 cá nhân: <input type="text" id="p13-ca-nhan" readonly></label>
-    <label>Hệ số DTHĐ<br>tính thưởng: <input type="text" id="he-so-thuong" readonly></label>
-    <label>∑FYP DH MDRT<br> Đến tháng T-1:
+    </label>
+    <hr>
+<div class="top-fields">
+  
+  <div class="field" style="flex: 6" >
+    <label for="ho-ten">Họ và tên</label>
+    <input type="text" id="ho-ten" readonly>
+  </div>
+</div>
+<div class="top-fields">
+    <div class="field" style="flex: 0.5">
+    <label for="khu-vuc">Khu vực</label>
+    <input type="text" id="khu-vuc" readonly>
+  </div>
+  <div class="field" style="flex: 1.5">
+    <label for="thang-lam-viec">Thâm niên</label>
+    <input type="text" id="thang-lam-viec" readonly>
+</div>
+  <div class="field" style="flex: 4">
+    <label for="nhom-dai-ly">Phân nhóm đại lý</label>
+    <input type="text" id="nhom-dai-ly" readonly>
+    </div>
+    
+ 
+</div>
+<div class="top-fields">
+<div class="field" style="flex: 1">
+    <label for="p13-ca-nhan">P13 cá nhân</label>
+    <input type="text" id="p13-ca-nhan" readonly>
+    </div>
+    <div class="field" style="flex: 1">
+    <label for="he-so-thuong">Hệ số tính thưởng</label>
+       <input type="text" id="he-so-thuong" readonly>
+        </div>
+    </div>
+<div class="top-fields">
+    <div class="field" style="flex: 1">
+    <label for="mdrt-fyp">∑ FYP DH MDRT</label>
       <input type="text" id="mdrt-fyp" readonly>
-    </label>
-    <label>∑FYC của Tháng<br>T-1 và T-2:
-      <input type="text" id="tong-fyc" readonly>
-    </label>
-    <label>∑FYC Quý<br>hiện tại:
-      <input type="text" id="tong-fyc-quy" readonly>
-    </label>
+      </div>
+    <div class="field" style="flex: 1">
+    <label for="tong-fyc">∑ FYC T-1 và T-2</label>
+    <input type="text" id="tong-fyc" readonly>
+  </div>
+  <div class="field" style="flex: 1">
+    <label for="tong-fyc-quy">∑ FYC Quý hiện tại:</label>
+    <input type="text" id="tong-fyc-quy" readonly>
+  </div>
+</div>
+
+    
     <hr>
     <h2>MỤC TIÊU THÁNG HIỆN TẠI</h2>
     <label>
-      Chọn giai đoạn nhận thưởng<br>Memo KHỞI ĐỘNG NHANH, NHẬN QUÀ XANH<br>0001M08/2025/ASBD:
+      Chọn giai đoạn nhận thưởng Memo KHỞI ĐỘNG NHANH, NHẬN QUÀ XANH <BR> 0001M08/2025/ASBD:
     </label>
     <div class="memo-group">
       <label><input type="radio" name="memo-period" value="1"> Giai đoạn 1 (1-11/8)</label>
       <label><input type="radio" name="memo-period" value="2"> Giai đoạn 2 (12-25/8)</label>
       <label><input type="radio" name="memo-period" value="3"> Giai đoạn 3 (26-31/8)</label>
     </div>
-    <label>Thưởng dự kiến<br>Cao nhất:
-      <input type="text" id="thuong-memo" readonly>
-    </label>
-    <label1>
-      ∑Số lượng<br>Hợp đồng:
-      <input type="number" id="tong-cc">
-    </label1>
-    <label1>
-      ∑FYP<br>SP chính:
-      <input type="number" id="fyp-chinh">
-    </label1>
-    <label1>
-      ∑FYP<br>SP gắn kèm:
-      <input type="number" id="fyp-kem">
-    </label1>
-    <label>∑FYP<br>Từ các HĐ:
-      <input type="text" id="tong-fyp" readonly>
-    </label>
+  
+   <div class="top-fields">
+  <div class="field" style="flex: 1">
+    <label for="tong-cc">∑ Số lượng Hợp đồng</label>
+    <input type="number" id="tong-cc">
+  </div>
+  <div class="field" style="flex: 1">
+    <label for="fyp-chinh">∑ FYP SP chính </label>
+    <input type="number" id="fyp-chinh">
+  </div>
+  <div class="field" style="flex: 1">
+    <label for="fyp-kem">∑ FYP SP gắn kèm </label>
+    <input type="number" id="fyp-kem">
+  </div>
+</div>
+<div class="top-fields">
+<div class="field" style="flex: 3">
+    <label for="tong-fyp">∑ FYP Từ các HĐ</label>
+    <input type="text" id="tong-fyp" readonly>
+    </div>
+    <div class="field" style="flex: 2">
     <button id="calc-btn" onclick="calculateIncome()">Tính thu nhập</button>
+        </div>
+    </div>
+
     <hr>
     <h2>CÁC KHOẢN THU NHẬP</h2>
-    <label>FYC<br>SP chính (30%):
-      <input type="text" id="fyc-chinh" readonly>
-    </label>
-    <label>FYC<br>SP gắn kèm (20%):
-      <input type="text" id="fyc-kem" readonly>
-    </label>
-    <label>Thưởng thêm<br>SP gắn kèm (20%):
-      <input type="text" id="thuong-kem" readonly>
-    </label>
-    <label>FYC<br>Tính thưởng:
-      <input type="text" id="fyc-thuong" readonly>
-    </label>
-    <label>Thưởng NSXS<br>Manulife Pro:
-      <input type="text" id="thuong-nspro" readonly>
-    </label>
-    <label>Thưởng Năng suất<br>Hàng tháng:
-      <input type="text" id="thuong-nst" readonly>
-    </label>
-    <label>Thưởng Năng suất<br>Hàng Quý:
-      <input type="text" id="thuong-nsq" readonly>
-    </label>
-    <label>Thưởng Tiến Độ<br>DH MDRT: 
-      <input type="text" id="thuong-mdrt" readonly>
-    </label>
+     <div class="income-mini-title">1. Hoa hồng sản phẩm (FYC)</div>
+   <div class="top-fields">
+  <div class="field" style="flex: 1">
+    <label>FYC SP chính (30%)</label>
+    <input type="text" id="fyc-chinh" readonly>
+  </div>
+  <div class="field" style="flex: 1">
+    <label>FYC SP gắn kèm (20%)</label>
+    <input type="text" id="fyc-kem" readonly>
+  </div>
+</div>
+<div class="top-fields">
+  <div class="field" style="flex: 1">
+    <label>Thưởng thêm SP gắn kèm (20%)</label>
+    <input type="text" id="thuong-kem" readonly>
+  </div>
+  <div class="field" style="flex: 1">
+    <label>FYC Tính chính sách</label>
+    <input type="text" id="fyc-thuong" readonly>
+  </div>
+</div>
+ <div class="income-mini-title">2. Thưởng theo Chính sách chi trả </div>
+<div class="top-fields">
+  <div class="field" style="flex: 1">
+    <label>Thưởng NSXS Manulife Pro</label>
+    <input type="text" id="thuong-nspro" readonly>
+  </div>
+  <div class="field" style="flex: 1">
+    <label>Thưởng Năng suất hàng tháng</label>
+    <input type="text" id="thuong-nst" readonly>
+  </div>
+</div>
+<div class="top-fields">
+  <div class="field" style="flex: 1">
+    <label>Thưởng Năng suất hàng Quý</label>
+    <input type="text" id="thuong-nsq" readonly>
+  </div>
+  <div class="field" style="flex: 1">
+    <label>Thưởng Tiến độ MDRT</label>
+    <input type="text" id="thuong-mdrt" readonly>
+  </div>
+</div>
+ <div class="income-mini-title">3. Thưởng theo Memo hàng Tháng</div>
+   <div class="top-fields"></div>
+  <div class="field" style="flex: 1">
+    <label for="thuong-memo" class="income-note">0001M08/2025/ASBD</label>
+        <input type="text" id="thuong-memo" maxlength="12" readonly>
+  </div>
+
     <hr>
-    <h2>TỔNG THU NHẬP DỰ KIẾN</h2>
-    <div style="text-align: center;">
-      <input type="text" id="tong-thu-nhap" readonly>
+    <h2>THU NHẬP</h2>
+     <div class="summary-row">
+      <div class="summary-block">
+        <label for="tong-thu-nhap">Tổng thu nhập dự kiến</label>
+        <input type="text" id="tong-thu-nhap" readonly>
+      </div>
+      <div class="summary-block">
+        <label for="ty-le-thu-nhap">Tỷ lệ thu nhập/doanh thu</label>
+        <input type="text" id="ty-le-thu-nhap" readonly>
+      </div>
     </div>
-    <h2>TỶ LỆ THU NHẬP/DOANH THU</h2>
-    <div style="text-align: center; margin-top: 0.7em;">
-      <input type="text" id="ty-le-thu-nhap" readonly>
-    </div>
+    
     <div style="text-align: center; margin-top: 1em;">
     <button onclick="exportPDF()">Xuất PDF</button>
     </div>
