@@ -332,7 +332,7 @@
     }
     function formatNumber(val) {
       if (val === "" || val === null || val === undefined || isNaN(val)) return "";
-      return Number(val).toLocaleString('vi-VN', {minimumFractionDigits: 0, maximumFractionDigits: 3});
+      return Number(val).toLocaleString('vi-VN', {minimumFractionDigits: 3, maximumFractionDigits: 3});
     }
     function parseVnNumber(str) {
       if (typeof str === "number") return str;
@@ -372,7 +372,7 @@
         document.getElementById("ngay-gia-nhap").value = agent["Ngày gia nhập"] || "";
         let p13 = agent["TLDTHD cá nhân"];
         p13 = (p13 === '' || p13 === undefined || p13 === null) ? null : parseFloat(p13);
-        document.getElementById("p13-ca-nhan").value = p13 ?? '';
+        document.getElementById("p13-ca-nhan").value = p13 +"%"?? '';
         const heSo = getHeSoThuong(p13);
         document.getElementById("he-so-thuong").value = heSo;
         const fycT1 = parseFloat(agent["FYC tháng T-1"]) || 0;
