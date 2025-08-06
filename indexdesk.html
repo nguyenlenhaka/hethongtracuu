@@ -7,6 +7,30 @@
   <link rel="stylesheet" href="font/fonts.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
+    .row-fields-5 {
+  display: flex !important;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 4px;
+}
+
+.row-fields-5 .field {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.row-fields-5 label {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 500;
+  font-size: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center; /* Nếu muốn label căn giữa field */
+}
+
     body {
       min-height: 100vh;
       background: url('BGINCOME.webp') center/cover no-repeat fixed;
@@ -16,7 +40,7 @@
       font-family: 'Manulife JH Sans', Arial, sans-serif;
     }
     .container {
-      max-width: 900px;
+      max-width: 1080px;
       background: #fff;
       margin: 36px auto 36px auto;
       border-radius: 14px;
@@ -313,13 +337,7 @@
       white-space: nowrap;
     }
     .export-btn:hover { background: #004199; }
-    @media (max-width: 950px) {
-      .container { max-width: 99vw; padding: 7px 2px; }
-      .top-fields, .top-fields-2, .goals-row, .income-group, .summary-row { flex-direction: column; gap: 7px; }
-      .center-btn { margin-bottom: 4px; }
-      .summary-row { gap: 8px; }
-      .income-section-title { font-size: 1em; }
-    }
+    
   </style>
   <script>
     let data = [], nspro = [], nst6 = [], nst7 = [], nsq6 = [], nsq7 = [], hsdt = [], trackingMDRT = [];
@@ -549,34 +567,44 @@
       document.getElementById("thuong-memo").value = formatNumber(totalBonus);
       calculateTongThuNhap();
     }
-    function calculateThuongMDRT() {
-      const thangDuTinh = parseInt(document.getElementById("month-select").value);
-      const mdrtFypStr = document.getElementById("mdrt-fyp").value;
-      const mdrtFyp = parseVnNumber(mdrtFypStr);
-      const agent = data.find(row => 
-        row["Mã Đại lý"]?.toString().toLowerCase() === document.getElementById("agent-id").value.trim().toLowerCase() &&
-        row["Ngày gia nhập"]?.toString().trim() === document.getElementById("ngay-gia-nhap").value.trim()
-      );
-      if (!agent) {
-        document.getElementById("thuong-mdrt").value = formatNumber(0);
-        return;
-      }
-      const mdrtRow = trackingMDRT.find(row => parseInt(row["Tháng xét"]) === thangDuTinh);
-      if (!mdrtRow) {
-        document.getElementById("thuong-mdrt").value = formatNumber(0);
-        return;
-      }
-      const fypYeuCau = parseFloat(mdrtRow["FYP YÊU CẦU"]) || 0;
-      const muc1 = parseFloat(mdrtRow["MỨC 1 THẤP"]) || 0;
-      const muc2 = parseFloat(mdrtRow["MỨC 2 CAO"]) || 0;
-      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
-      const kq = fypYeuCau > 0 ? mdrtFyp / fypYeuCau : 0;
-      let thuong = 0;
-      if (kq >= 0.9 && kq < 1) thuong = muc1;
-      if (kq >= 1) thuong = muc2;
-      thuong = thuong * heSo;
-      document.getElementById("thuong-mdrt").value = formatNumber(thuong);
-    }
+    function toNumber(val) {
+  // Chuyển giá trị về số, loại dấu phân cách
+  if (typeof val === 'number') return val;
+  if (!val) return 0;
+  return Number(String(val).replace(/\./g, '').replace(/,/g, '').replace(/[^0-9\.\-eE]/g, '')) || 0;
+}
+
+function calculateThuongMDRT() {
+  const thangDuTinh = toNumber(document.getElementById("month-select").value);
+  // Chỉ tính các tháng chốt quý
+  if (![3, 6, 9, 12].includes(thangDuTinh)) {
+    document.getElementById("thuong-mdrt").value = formatNumber(0);
+    return;
+  }
+  // Lấy FYP input và ép chắc về số
+  const mdrtFyp = toNumber(document.getElementById("mdrt-fyp").value);
+
+  // Tìm đúng dòng tháng xét
+  const mdrtRow = trackingMDRT.find(row => toNumber(row["Tháng xét"]) === thangDuTinh);
+  if (!mdrtRow) {
+    document.getElementById("thuong-mdrt").value = formatNumber(0);
+    return;
+  }
+
+  // Lấy các giá trị trong JSON, ép chắc về số
+  const fypYeuCau = toNumber(mdrtRow["FYP YÊU CẦU"]);
+  const muc1 = toNumber(mdrtRow["MỨC 1 THẤP"]);
+  const muc2 = toNumber(mdrtRow["MỨC 2 CAO"]);
+
+  let thuong = 0;
+  if (fypYeuCau > 0 && mdrtFyp > 0) {
+    const tiLe = mdrtFyp / fypYeuCau;
+    if (tiLe >= 1) thuong = muc2;
+    else if (tiLe >= 0.9) thuong = muc1;
+  }
+  document.getElementById("thuong-mdrt").value = formatNumber(thuong);
+}
+
     function calculateTongThuNhap() {
       const getVal = id => parseVnNumber(document.getElementById(id).value);
       const fycChinh = getVal("fyc-chinh");
@@ -673,28 +701,29 @@
         <input type="text" id="thang-lam-viec" maxlength="3" readonly>
       </div>
     </div>
-    <div class="top-fields-2">
-      <div class="field">
-        <label for="p13-ca-nhan">P13 cá nhân</label>
-        <input type="text" id="p13-ca-nhan" maxlength="8" readonly>
-      </div>
-      <div class="field">
-        <label for="he-so-thuong">Hệ số thưởng</label>
-        <input type="text" id="he-so-thuong" maxlength="3" readonly>
-      </div>
-      <div class="field">
-        <label for="tong-fyc-quy">∑FYC Quý hiện tại</label>
-        <input type="text" id="tong-fyc-quy" maxlength="12" readonly>
-      </div>
-      <div class="field">
-        <label for="mdrt-fyp">∑FYP tiến độ MDRT</label>
-        <input type="text" id="mdrt-fyp" maxlength="12" readonly>
-      </div>
-      <div class="field">
-        <label for="tong-fyc">∑FYC T-1 & T-2</label>
-        <input type="text" id="tong-fyc" maxlength="12" readonly>
-      </div>
-    </div>
+    <div class="top-fields-2 row-fields-5">
+  <div class="field">
+    <label for="p13-ca-nhan">P13 cá nhân</label>
+    <input type="text" id="p13-ca-nhan" maxlength="8" readonly>
+  </div>
+  <div class="field">
+    <label for="he-so-thuong">Hệ số thưởng</label>
+    <input type="text" id="he-so-thuong" maxlength="3" readonly>
+  </div>
+  <div class="field">
+    <label for="tong-fyc-quy">∑FYC Quý hiện tại</label>
+    <input type="text" id="tong-fyc-quy" maxlength="12" readonly>
+  </div>
+  <div class="field">
+    <label for="mdrt-fyp">∑FYP tiến độ MDRT</label>
+    <input type="text" id="mdrt-fyp" maxlength="12" readonly>
+  </div>
+  <div class="field">
+    <label for="tong-fyc">∑FYC T-1 & T-2</label>
+    <input type="text" id="tong-fyc" maxlength="12" readonly>
+  </div>
+</div>
+
     <hr>
     <div class="block-title">MỤC TIÊU THÁNG HIỆN TẠI</div>
     <div class="goals-row">
