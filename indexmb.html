@@ -47,18 +47,19 @@
       white-space: nowrap;
     }
     .field label {
-      font-size: 1em;
+      font-size: 1.02em;
       font-weight: 500;
       color: #222;
       letter-spacing: 0.01em;
       text-align: left;
       white-space: nowrap;
+      margin-bottom:0.5em;
       
     }
     .field input, .field select {
       height: 40px;
       padding: 0 12px;
-      font-size: 1.08em;
+      font-size: 0.8em;
       border: 1.3px solid #c7d5e6;
       border-radius: 7px;
       background-color:rgba(214,255,237,0.3);
@@ -149,7 +150,7 @@
       color: #048f60;
       border: 2px solid #00a578;
       border-radius: 8px;
-      font-size: 2.1em;
+      font-size: 1em;
       font-weight: 900;
       height: 52px;
       text-align: center;
@@ -162,8 +163,7 @@
     label {
       display: flex;
       align-items: center;
-      margin: 7px 7px;
-      font-size: 0.8em ! important;
+      font-size: 0.6em ! important;
       font-weight: 400;
     }
     label input[type="text"], label input[type="number"], label select {
@@ -173,7 +173,7 @@
       padding: 6px 10px;
       border: 1px solid #a7b7cc;
       border-radius: 8px;
-      font-size: 1.2em ! important;
+      font-size: 1em ! important;
       min-width: 0;;
       background: #f5f7fb;
     }
@@ -191,7 +191,7 @@
       align-items: center;
       border: 1px solid #a7b7cc;
       border-radius: 8px;
-      font-size: 1.2em !important ;
+      font-size: 1em !important ;
       min-width: 0;
       margin: 7px 7px;
       background-color: rgba( 0,255,1,0.3);
@@ -249,7 +249,7 @@
     button {
       margin: 1px 7px;
       padding: 6px 10px;
-      align-items: center;
+      align-items: center !important;
       display: block;
       background: #0d72b5;
       color: #fff;
@@ -257,7 +257,7 @@
       border: none;
       border-radius: 8px;
       padding: 10px 26px;
-      font-size: 1.07em;
+      font-size: 1em;
       transition: background 0.16s;
       cursor: pointer;
       box-shadow: 0 2px 8px #0d72b533;
@@ -267,7 +267,7 @@
     }
     .memo-group label {
       display: flex;
-      align-items: center;
+      align-items: center!important;
       margin-bottom: 3px;
       font-size: 0.97em;
     }
@@ -277,7 +277,7 @@
     .highlight-label {
       color: #00a758 !important;
       font-weight: bold !important;
-      font-Size: 3em !important;
+      font-Size: 2em !important;
     }
     .unit {
       font-weight: normal !important;
@@ -555,31 +555,45 @@
       document.getElementById("thuong-memo").value = formatNumber(totalBonus);
       calculateTongThuNhap();
     }
-    function calculateThuongMDRT() {
-      const thangDuTinh = parseInt(document.getElementById("month-select").value);
-      const mdrtFypStr = document.getElementById("mdrt-fyp").value;
-      const mdrtFyp = parseVnNumber(mdrtFypStr);
-      const agent = data.find(row => row["Mã Đại lý"].toLowerCase() === document.getElementById("agent-id").value.trim().toLowerCase());
-      if (!agent) {
-        document.getElementById("thuong-mdrt").value = formatNumber(0);
-        return;
-      }
-      const mdrtRow = trackingMDRT.find(row => parseInt(row["Tháng xét"]) === thangDuTinh);
-      if (!mdrtRow) {
-        document.getElementById("thuong-mdrt").value = formatNumber(0);
-        return;
-      }
-      const fypYeuCau = parseFloat(mdrtRow["FYP YÊU CẦU"]) || 0;
-      const muc1 = parseFloat(mdrtRow["MỨC 1 THẤP"]) || 0;
-      const muc2 = parseFloat(mdrtRow["MỨC 2 CAO"]) || 0;
-      const heSo = parseFloat(document.getElementById("he-so-thuong").value) || 1;
-      const kq = fypYeuCau > 0 ? mdrtFyp / fypYeuCau : 0;
-      let thuong = 0;
-      if (kq >= 0.9 && kq < 1) thuong = muc1;
-      if (kq >= 1) thuong = muc2;
-      thuong = thuong * heSo;
-      document.getElementById("thuong-mdrt").value = formatNumber(thuong);
-    }
+function toNumber(val) {
+  // Chuyển giá trị về số, loại dấu phân cách
+  if (typeof val === 'number') return val;
+  if (!val) return 0;
+  return Number(String(val).replace(/\./g, '').replace(/,/g, '').replace(/[^0-9\.\-eE]/g, '')) || 0;
+}
+
+function calculateThuongMDRT() {
+  const thangDuTinh = toNumber(document.getElementById("month-select").value);
+  // Chỉ tính các tháng chốt quý
+  if (![3, 6, 9, 12].includes(thangDuTinh)) {
+    document.getElementById("thuong-mdrt").value = formatNumber(0);
+    return;
+  }
+  // Lấy FYP input và ép chắc về số
+  const mdrtFyp = toNumber(document.getElementById("mdrt-fyp").value);
+
+  // Tìm đúng dòng tháng xét
+  const mdrtRow = trackingMDRT.find(row => toNumber(row["Tháng xét"]) === thangDuTinh);
+  if (!mdrtRow) {
+    document.getElementById("thuong-mdrt").value = formatNumber(0);
+    return;
+  }
+
+  // Lấy các giá trị trong JSON, ép chắc về số
+  const fypYeuCau = toNumber(mdrtRow["FYP YÊU CẦU"]);
+  const muc1 = toNumber(mdrtRow["MỨC 1 THẤP"]);
+  const muc2 = toNumber(mdrtRow["MỨC 2 CAO"]);
+
+  let thuong = 0;
+  if (fypYeuCau > 0 && mdrtFyp > 0) {
+    const tiLe = mdrtFyp / fypYeuCau;
+    if (tiLe >= 1) thuong = muc2;
+    else if (tiLe >= 0.9) thuong = muc1;
+  }
+  document.getElementById("thuong-mdrt").value = formatNumber(thuong);
+}
+
+
 
     // ---------- TÍNH TỶ LỆ THU NHẬP / FYP và HIỂN THỊ ----------
     function calculateTongThuNhap() {
@@ -685,9 +699,9 @@
     <input type="text" id="ngay-gia-nhap">
   </div>
 </div>
-    <label>
-      <button onclick="searchAgent()">Lấy dữ liệu tham chiếu</button>
-    </label>
+    <div class="field" style="flex: 3">
+    <button onclick="searchAgent()">Lấy dữ liệu tham chiếu</button>
+            </div>
     <hr>
 <div class="top-fields">
   
@@ -747,7 +761,7 @@
       <label><input type="radio" name="memo-period" value="1"> Giai đoạn 1 (1-11/8)</label>
       <label><input type="radio" name="memo-period" value="2"> Giai đoạn 2 (12-25/8)</label>
       <label><input type="radio" name="memo-period" value="3"> Giai đoạn 3 (26-31/8)</label>
-    </div>
+    </div><br>
   
    <div class="top-fields">
   <div class="field" style="flex: 1">
@@ -768,7 +782,7 @@
     <label for="tong-fyp">∑ FYP Từ các HĐ</label>
     <input type="text" id="tong-fyp" readonly>
     </div>
-    <div class="field" style="flex: 2">
+    <div class="field" style="flex: 3">
     <button id="calc-btn" onclick="calculateIncome()">Tính thu nhập</button>
         </div>
     </div>
@@ -837,9 +851,7 @@
       </div>
     </div>
     
-    <div style="text-align: center; margin-top: 1em;">
-    <button onclick="exportPDF()">Xuất PDF</button>
-    </div>
+   
   </div>
 </body>
 </html>
