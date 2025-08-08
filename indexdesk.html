@@ -536,40 +536,38 @@
       document.getElementById("thuong-nsq").value = formatNumber(thuongNSQ);
     }
     function calculateMemoBonus() {
-      const cc = parseInt(document.getElementById("tong-cc").value) || 0;
-      const fyp = parseVnNumber(document.getElementById("tong-fyp").value);
-      const selected = document.querySelector('input[name="memo-period"]:checked');
-      if (!selected) {
-        document.getElementById("thuong-memo").value = formatNumber(0);
-        calculateTongThuNhap();
-        return;
-      }
-      const period = parseInt(selected.value);
-      let muc1 = 0, muc2 = 0;
-      if (period === 1) [muc1, muc2] = [2500, 1500];
-      if (period === 2) [muc1, muc2] = [2000, 1000];
-      if (period === 3) [muc1, muc2] = [1500, 750];
-      let ccMuc1 = 0, ccMuc2 = 0;
-      let remainFYP = fyp;
-      for (let i = 0; i < cc; i++) {
-        const chia = remainFYP / (cc - i);
-        if (chia >= 25000) {
-          ccMuc1 += 1;
-          remainFYP -= 25000;
-        } else if (chia >= 16000) {
-          ccMuc2 += 1;
-          remainFYP -= 16000;
-        } else {
-          break;
-        }
-      }
-      if (totalAssignedCC < cc) {
-  alert(`Với FYP ${formatNumber(fyp)} chỉ có thể tính thưởng tối đa trên ${totalAssignedCC} HĐ.`);
-}
-      const totalBonus = ccMuc1 * muc1 + ccMuc2 * muc2;
-      document.getElementById("thuong-memo").value = formatNumber(totalBonus);
-      calculateTongThuNhap();
+  const cc = parseInt(document.getElementById("tong-cc").value) || 0;
+  const fyp = parseVnNumber(document.getElementById("tong-fyp").value);
+  const selected = document.querySelector('input[name="memo-period"]:checked');
+  if (!selected) {
+    document.getElementById("thuong-memo").value = formatNumber(0);
+    calculateTongThuNhap();
+    return;
+  }
+  const period = parseInt(selected.value);
+  let muc1 = 0, muc2 = 0;
+  if (period === 1) [muc1, muc2] = [2500, 1500];
+  if (period === 2) [muc1, muc2] = [2000, 1000];
+  if (period === 3) [muc1, muc2] = [1500, 750];
+  let ccMuc1 = 0, ccMuc2 = 0;
+  let remainFYP = fyp;
+  for (let i = 0; i < cc; i++) {
+    const chia = remainFYP / (cc - i);
+    if (chia >= 25000) {
+      ccMuc1 += 1;
+      remainFYP -= 25000;
+    } else if (chia >= 16000) {
+      ccMuc2 += 1;
+      remainFYP -= 16000;
+    } else {
+      break;
     }
+  }
+
+  const totalAssignedCC = ccMuc1 + ccMuc2;
+  if (totalAssignedCC < cc) {
+    alert(`Với FYP ${formatNumber(fyp)} chỉ có thể tính thưởng tối đa trên ${totalAssignedCC} HĐ.`);
+  }
     function toNumber(val) {
   // Chuyển giá trị về số, loại dấu phân cách
   if (typeof val === 'number') return val;
