@@ -563,6 +563,9 @@
           break;
         }
       }
+      if (totalAssignedCC < cc) {
+  alert(`Với FYP ${formatNumber(fyp)} chỉ có thể tính thưởng tối đa trên ${totalAssignedCC} HĐ.`);
+}
       const totalBonus = ccMuc1 * muc1 + ccMuc2 * muc2;
       document.getElementById("thuong-memo").value = formatNumber(totalBonus);
       calculateTongThuNhap();
