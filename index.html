@@ -1,18 +1,342 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>CÔNG CỤ DỰ TÍNH THU NHẬP</title>
-  <script>
-    // Detect nếu là mobile thì chuyển sang file mobile
-    if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      window.location.href = "indexmb.html";
-    } else {
-      window.location.href = "indexdesk.html";
+  <meta charset="UTF-8" />
+  <title>HỆ THỐNG ĐÃ DỪNG HOẠT ĐỘNG – Vùng Hằng Lâm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <!-- Font của dự án -->
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <!-- Tailwind (chỉ dùng utility nhỏ) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --header-h: 64px;
+      --footer-h: 66px;
+      --brand:#059669; 
+      --accent:#00a758;
     }
-  </script>
+    /* đảm bảo không tràn ngang trên mọi thiết bị */
+    html,body{height:100%;margin:0;background:#f3f4f6;overflow-x:hidden}
+    *{box-sizing:border-box;min-width:0}
+
+    /* ===== HEADER (FIXED) ===== */
+    .app-header{
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      background:#e8fff3; border-bottom:1px solid #d9f7e6;
+      padding-top:env(safe-area-inset-top,0px);
+    }
+    /* header chia 2 khu: brand (logo+tên) và login */
+    .header-grid{
+      display:grid; grid-template-columns: 1fr auto;
+      align-items:center; gap:12px; padding:10px 12px;
+    }
+    .brand-row{
+      display:flex; align-items:center; gap:10px; min-width:0;
+    }
+    .logo-d{ height:70px; width:auto; display:block; flex:0 0 auto; }
+
+    /* Tiêu đề: cho phép xuống dòng, không cắt dấu */
+    .title-wrap{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+    .title-top,.title-main{
+      font-family:'Manulife JH Sans','ManulifeJHSans',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      color:var(--brand); font-weight:800;
+      white-space:normal; overflow:visible; text-overflow:clip;
+      word-break:keep-all; line-height:1.25; padding-block:2px;
+    }
+    .title-top{  font-size:clamp(14px, 1vw + 10px, 22px); text-transform:uppercase; }
+    .title-main{ font-size:clamp(18px, 1.8vw + 12px, 34px); }
+
+    /* ===== CONTENT ===== */
+    body{ padding-top: 0; }
+    body{ padding-bottom: calc(2.25 * var(--footer-h) + env(safe-area-inset-bottom,0px)); }
+
+    main{ max-width:1366px; margin:0 auto; padding:14px; }
+
+    /* ===== MAINTENANCE MESSAGE ===== */
+    .maintenance-container {
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      margin: 0;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border: 2px solid #e5e7eb;
+    }
+
+    .maintenance-icon {
+      font-size: 80px;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .maintenance-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #dc2626;
+      margin-bottom: 15px;
+      line-height: 1.1;
+    }
+
+    .maintenance-subtitle {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .maintenance-message {
+      font-size: 1.2rem;
+      color: #6b7280;
+      margin-bottom: 25px;
+      line-height: 1.4;
+    }
+
+    .redirect-button {
+      display: inline-block;
+      background: #00a758;
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 18px rgba(0,167,88,0.3);
+      margin: 8px;
+      word-break: break-all;
+    }
+
+    .redirect-button:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,167,88,0.4);
+    }
+
+    .contact-info {
+      margin-top: 25px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border-left: 4px solid #00a758;
+      border-right: 4px solid #00a758
+    }
+
+    .contact-info h3 {
+      color: #374151;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .contact-info p {
+      color: #6b7280;
+      margin: 10px 0;
+      line-height: 1.3;
+    }
+
+    .zalo-button {
+      display: inline-block;
+      background: #00a758;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,167,88,0.3);
+      margin: 10px 0;
+    }
+
+    .zalo-button:hover {
+      background: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,167,88,0.4);
+    }
+
+    /* ===== MOBILE RESPONSIVE ===== */
+    @media (max-width:768px){
+      .header-grid{ 
+        grid-template-columns:1fr; 
+        gap: 8px;
+      }
+      .brand-row{ 
+        justify-content:flex-start; 
+        flex-wrap: wrap;
+      }
+      .logo-d{ height:44px; }
+      .title-top{ font-size:clamp(13px, 1.6vw + 10px, 18px); }
+      .title-main{ font-size:clamp(16px, 3vw + 10px, 24px); }
+      
+      .maintenance-container {
+        padding: 25px 20px;
+        margin: 20px 0;
+        border-radius: 12px;
+      }
+      
+      .maintenance-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+      }
+      
+      .maintenance-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+      
+      .maintenance-message {
+        font-size: 1rem;
+        margin-bottom: 30px;
+        padding: 0 10px;
+      }
+      
+      .redirect-button {
+        padding: 14px 20px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 320px;
+        margin: 8px 0;
+        word-break: break-word;
+      }
+
+      .zalo-button {
+        padding: 12px 24px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .contact-info {
+        margin-top: 30px;
+        padding: 20px 15px;
+      }
+
+      .contact-info h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+      }
+
+      .contact-info p {
+        font-size: 0.95rem;
+        margin: 12px 0;
+      }
+    }
+
+    @media (max-width:480px){
+      .maintenance-container {
+        padding: 20px 15px;
+        margin: 15px 0;
+      }
+      
+      .maintenance-title {
+        font-size: 1.6rem;
+      }
+      
+      .maintenance-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .maintenance-message {
+        font-size: 0.95rem;
+        padding: 0 5px;
+      }
+
+      .redirect-button {
+        font-size: 0.95rem;
+        padding: 12px 16px;
+      }
+
+      .zalo-button {
+        font-size: 0.95rem;
+        padding: 10px 20px;
+      }
+    }
+
+    /* ===== FOOTER ===== */
+    #pageFooter{
+      position:fixed; left:0; right:0; bottom:0;
+      min-height:var(--footer-h);
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+      background:#f4f6f8; color:#0b3a2a; border-top:1px solid #e3e7eb; z-index:950;
+      padding:8px 10px 10px; text-align:center; font-weight:800;
+    }
+    #pageFooter img{ height:22px; width:auto; display:block; }
+    #contentWrap::after{ content:""; display:block; height: calc(0.75 * var(--footer-h) + 24px); }
+  </style>
 </head>
 <body>
-  <p>Đang chuyển hướng...</p>
+  <!-- ===== HEADER ===== -->
+  <header id="pageHeader" class="app-header">
+    <div class="header-grid">
+      <!-- Hàng brand: logo & tên trang cùng 1 dòng -->
+      <div class="brand-row">
+        <img src="logo.webp" alt="logo" class="logo-d" />
+        <div class="title-wrap">
+          <div class="title-top">CỔNG THÔNG TIN VÙNG HẰNG LÂM</div>
+          <div class="title-main">CÔNG CỤ DỰ TÍNH THU NHẬP</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== CONTENT ===== -->
+  <div id="contentWrap">
+    <main>
+      <div class="maintenance-container">
+        <span class="maintenance-icon">🚧</span>
+        
+        <h1 class="maintenance-title">HỆ THỐNG ĐÃ DỪNG HOẠT ĐỘNG</h1>
+        <p class="maintenance-message">
+          Hệ thống cũ đã được nâng cấp nhiều tính năng cải tiến. 
+          Để tiếp tục sử dụng,
+        </p>
+        <h2 class="maintenance-subtitle">Vui lòng truy cập hệ thống mới:</h2>
+        <a href="https://tracuubaocao.vunghanglam.com" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="redirect-button">
+          tracuubaocao.vunghanglam.com
+        </a>
+        
+        <div class="contact-info">
+          <h3>Thông tin liên hệ hỗ trợ:</h3>
+          <a href="http://zalo.me/0376763390" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="zalo-button">
+            Zalo Vùng Hằng Lâm
+          </a>
+          <p><strong>Thời gian hỗ trợ:</strong><br>8:00 - 21:00 (Thứ 2 - Chủ nhật)</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer id="pageFooter">
+    <div>Bản quyền trang web thuộc về</div>
+    <img src="logo_textr.webp" alt="Logo" />
+  </footer>
+
+  <script>
+    // Cập nhật chiều cao header và footer
+    function setLayoutVars(){
+      const head = document.getElementById('pageHeader');
+      const footer = document.getElementById('pageFooter');
+      const h = head ? Math.ceil(head.getBoundingClientRect().height) : 64;
+      const f = footer ? Math.ceil(footer.getBoundingClientRect().height) : 66;
+      
+      document.documentElement.style.setProperty('--header-h', h+'px');
+      document.documentElement.style.setProperty('--footer-h', f+'px');
+    }
+
+    // Khởi tạo khi trang load
+    window.addEventListener('load', () => {
+      setLayoutVars();
+      window.addEventListener('resize', setLayoutVars);
+    });
+  </script>
 </body>
 </html>
